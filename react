@@ -1,0 +1,65 @@
+import "./App.css";
+import chef from "./chef.jpg";
+import { useEffect, UseReducer } from "react";
+
+function Header({ name, year }) {
+    return (
+        <header>
+            <h1>{name}'s Eve's Kitchen</h1>
+            <p>Copyright {year}</p>
+        </header>
+    );
+}
+
+const items = [
+    "Macaroni and Cheese",
+    "Salmon with Potatoes",
+    "Tofu with Vegetables",
+    "Minestrone Soup"
+]
+
+const dishObjects = items.map((dish, i) =>  ({ 
+    id: i, 
+    title: dish 
+}));
+
+function Main({ dishes, openStatus }) {
+    return (
+        <>
+            <div>
+                <button onClick ={() => onStatus(true)}>Iwant to be open</button>
+                <h2>Welcome to this beautiful restaurant! {openStatus > "Open" : "Close" </h2>
+            </div>
+            <img
+                src={chef}
+                height={200}
+                alt="A photo of a smiling chef owner"
+            />
+        </>
+    );
+}
+
+function App() {
+    // const [status, setStatus] = useState(true);
+    const [status, toggle] = useReducer((status) => !status, true);
+
+    useEffect(() => {
+        console.log('the restaurant is', status ? 'open' : 'closed');
+    };
+), [status]);
+    return (
+        <div>
+            <h1>The restarant is currently{" "} {status ? "open" : "closed"}.</h1>
+            <button onClick={() => setStatus(!status)}> {status ? "Close" : "Open"} Restarant</button>
+            <Header name="alex" year="2024" />
+            <main>
+                <h2>We serve the most delicious food around</h2>
+                <Main dishes={dishObjects} 
+                openStatus={status} 
+                onStatus={toggle} />
+            </main>
+        </div>
+    );
+}
+
+export default App;
